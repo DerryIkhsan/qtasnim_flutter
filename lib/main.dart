@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qtasnim_flutter/services/services.dart';
+// import 'package:qtasnim_flutter/services/services.dart';
+import 'screen/transaksi/transaksi_provider.dart';
+import 'screen/transaksi/transaksi_bloc.dart';
+import 'screen/transaksi/transaksi.dart';
+import 'dt.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,19 +18,143 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+      debugShowCheckedModeBanner: false,
+      // home: Scaffold(
+      //   body: SafeArea(child: MyStatelessWidget()),
+      // ),
+      home: HomeScreen(),
+      // home: MyHomePage(title: "Tahu",),
+      // home: Scaffold(
+      //   body: Transaksi(),
+      // ),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void _searchTransaksi({String nama_barang = ''}) {
+    transaksiBloc.updateTransaksi(nama_barang: nama_barang);
+  }
+
+  String _cariTransaksi = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          margin: EdgeInsets.all(30),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Cari Transaksi",
+                  ),
+                  textInputAction: TextInputAction.done,
+                  onChanged: (value) {
+                    _cariTransaksi = value;
+                    _searchTransaksi(nama_barang: value);
+                  },
+                  onFieldSubmitted: (value) {
+                    _searchTransaksi(nama_barang: value);
+                  },
+                ),
+                SizedBox(
+                  height: 700,
+                  child: Transaksi(),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class TransaksiCard extends StatelessWidget {
+  const TransaksiCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<dynamic>>(
+      future: TransaksiApi().getData(),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            // scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: snapshot.data?.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.all(20),
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "${snapshot.data?[index]['tgl_transaksi']}",
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${snapshot.data?[index]['nama_barang']}",
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "Stok: ${snapshot.data?[index]['stok_awal']}",
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "Jumlah Terjual: ${snapshot.data?[index]['jumlah']}",
+                          ),
+                          // SizedBox(
+                          //   width: 15,
+                          // ),
+                          // Text(
+                          //   "Jenis: ${snapshot.data?[index]['jenis_barang']}",
+                          // ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          Text("Error");
+        }
+
+        return Text("");
+      },
     );
   }
 }
@@ -106,7 +236,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async {
+          await TransaksiProvider().getTransaksi();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
