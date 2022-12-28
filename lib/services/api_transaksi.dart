@@ -32,6 +32,20 @@ class TransaksiApi{
     }
   }
 
+  Future<void> updateData({String id_transaksi = '', String id_barang = '', String jumlah = ''}) async {
+    bool saved        = false;
+    var transaksiPost            = Uri.parse("$api/transaksi/update.php");
+    var responseTransaksiPost    = await http.post(transaksiPost, body: {
+      'id_transaksi': id_transaksi,
+      'id_barang': id_barang,
+      'jumlah': jumlah
+    });
+
+    if(responseTransaksiPost.statusCode == 200){
+      saved = true;
+    }
+  }
+
   Future<void> deleteData({String id_transaksi = ''}) async {
     bool saved        = false;
     var transaksiDelete            = Uri.parse("$api/transaksi/delete.php");

@@ -3,6 +3,7 @@ import 'package:qtasnim_flutter/screen/transaksi/transaksi_provider.dart';
 import 'package:qtasnim_flutter/services/services.dart';
 import '../../main.dart';
 import 'transaksi_bloc.dart';
+import 'transaksi_update.dart';
 
 class Transaksi extends StatefulWidget {
   @override
@@ -152,8 +153,31 @@ class _TransaksiState extends State<Transaksi> {
                       ),
                       SizedBox(height: 15),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            height: 30,
+                            child: RaisedButton.icon(
+                              color: Colors.green,
+                              onPressed: () async {
+                              
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (context) => TransaksiUpdate(
+                                      id_transaksi: snapshot.data?[index]['id_transaksi'],
+                                      id_barang: snapshot.data?[index]['id_barang'],
+                                      jumlah: snapshot.data?[index]['jumlah'],
+                                    )));
+
+                              },
+                              icon: Icon(Icons.edit, color: Colors.white,),
+                              label: Text("Ubah",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7,),
                           SizedBox(
                             height: 30,
                             child: RaisedButton.icon(
@@ -168,7 +192,9 @@ class _TransaksiState extends State<Transaksi> {
 
                               },
                               icon: Icon(Icons.cancel, color: Colors.white,),
-                              label: Text("Hapus"),
+                              label: Text("Hapus",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
