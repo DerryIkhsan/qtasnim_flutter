@@ -1,10 +1,11 @@
 part of 'services.dart';
 
 class TransaksiApi{
-  Future<List<dynamic>> getData({String nama_barang = ''}) async {
+  Future<List<dynamic>> getData({String nama_barang = '', String order = ''}) async {
     var transaksiGet            = Uri.parse("$api/transaksi/get.php");
     var responseTransaksiGet    = await http.post(transaksiGet, body: {
-      'nama_barang': nama_barang
+      'nama_barang': nama_barang,
+      'order': order
     });
 
     dynamic data;

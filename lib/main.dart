@@ -37,11 +37,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void _searchTransaksi({String nama_barang = ''}) {
-    transaksiBloc.updateTransaksi(nama_barang: nama_barang);
+  void _searchTransaksi({String nama_barang = '', String order = ''}) {
+    transaksiBloc.updateTransaksi(nama_barang: nama_barang, order: order);
   }
 
   String _cariTransaksi = '';
+  String _orderBy       = 'nama_barang';
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +67,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     _searchTransaksi(nama_barang: value);
                   },
                 ),
+                Text("Order By"), 
+                SizedBox(
+                  width: 300,
+                  child: DropdownButton(
+                    value: _orderBy,
+                    onChanged: (value) {
+                      setState(() {
+                        _orderBy = value.toString();
+
+                        _searchTransaksi(nama_barang: _cariTransaksi, order: value.toString());
+                      });
+
+                      print(_orderBy);
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: "nama_barang",
+                        child: Text("Barang"),
+                      ),
+                      DropdownMenuItem(
+                        value: "tgl_transaksi",
+                        child: Text("Tanggal"),
+                      ),
+                    ],
+                  ),
+                ),
+
                 SizedBox(
                   height: 700,
                   child: Transaksi(),

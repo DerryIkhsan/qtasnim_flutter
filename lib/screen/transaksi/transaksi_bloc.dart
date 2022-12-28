@@ -7,8 +7,8 @@ class TransaksiBloc{
 
   Stream get getTransaksi => transaksiController.stream;
 
-  void updateTransaksi({String nama_barang = ''}){
-    transaksiProvider.getTransaksi(nama_barang: nama_barang);
+  void updateTransaksi({String nama_barang = '', String order = ''}){
+    transaksiProvider.getTransaksi(nama_barang: nama_barang, order: order);
     transaksiController.sink.add(transaksiProvider.transaksi);
   }
 
