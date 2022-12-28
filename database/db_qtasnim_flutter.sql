@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS `barang` (
   `stok` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_barang`) USING BTREE,
   KEY `FK_barang_jenis_barang` (`id_jenis_barang`),
-  CONSTRAINT `FK_barang_jenis_barang` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id_jenis_barang`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_barang_jenis_barang` FOREIGN KEY (`id_jenis_barang`) REFERENCES `jenis_barang` (`id_jenis_barang`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_qtasnim_flutter.barang: ~5 rows (approximately)
+-- Dumping data for table db_qtasnim_flutter.barang: ~0 rows (approximately)
 /*!40000 ALTER TABLE `barang` DISABLE KEYS */;
 INSERT INTO `barang` (`id_barang`, `id_jenis_barang`, `nama_barang`, `stok`) VALUES
 	(1, 1, 'Kopi', 100),
@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS `history_stok` (
   `stok_awal` int(11) NOT NULL,
   PRIMARY KEY (`id_history_stok`),
   KEY `FK_history_stok_transaksi` (`id_transaksi`),
-  CONSTRAINT `FK_history_stok_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_history_stok_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_qtasnim_flutter.history_stok: ~7 rows (approximately)
+-- Dumping data for table db_qtasnim_flutter.history_stok: ~0 rows (approximately)
 /*!40000 ALTER TABLE `history_stok` DISABLE KEYS */;
 INSERT INTO `history_stok` (`id_history_stok`, `id_transaksi`, `stok_awal`) VALUES
 	(1, 1, 100),
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `jenis_barang` (
   PRIMARY KEY (`id_jenis_barang`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_qtasnim_flutter.jenis_barang: ~2 rows (approximately)
+-- Dumping data for table db_qtasnim_flutter.jenis_barang: ~0 rows (approximately)
 /*!40000 ALTER TABLE `jenis_barang` DISABLE KEYS */;
 INSERT INTO `jenis_barang` (`id_jenis_barang`, `jenis_barang`) VALUES
 	(1, 'Konsumsi'),
@@ -82,10 +82,10 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `jumlah` int(11) NOT NULL,
   PRIMARY KEY (`id_transaksi`) USING BTREE,
   KEY `FK_transaksi_barang` (`id_barang`),
-  CONSTRAINT `FK_transaksi_barang` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_transaksi_barang` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_qtasnim_flutter.transaksi: ~7 rows (approximately)
+-- Dumping data for table db_qtasnim_flutter.transaksi: ~0 rows (approximately)
 /*!40000 ALTER TABLE `transaksi` DISABLE KEYS */;
 INSERT INTO `transaksi` (`id_transaksi`, `id_barang`, `tgl_transaksi`, `jumlah`) VALUES
 	(1, 1, '2021-05-01', 10),

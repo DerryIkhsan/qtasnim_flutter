@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qtasnim_flutter/screen/transaksi/transaksi_provider.dart';
+import 'package:qtasnim_flutter/services/services.dart';
+import '../../main.dart';
 import 'transaksi_bloc.dart';
 
 class Transaksi extends StatefulWidget {
@@ -9,10 +11,22 @@ class Transaksi extends StatefulWidget {
 
 class _TransaksiState extends State<Transaksi> {
   @override
-  // void dispose() {
-  //   transaksiBloc.dispose();
-  //   super.dispose();
-  // }
+  void dispose() {
+    transaksiBloc.dispose();
+    super.dispose();
+  }
+
+  void _searchTransaksi({String nama_barang = '', String order = ''}) {
+    transaksiBloc.updateTransaksi(nama_barang: nama_barang, order: order);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _searchTransaksi(nama_barang: '');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +43,20 @@ class _TransaksiState extends State<Transaksi> {
             itemCount: snapshot.data?.length,
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 15),
-                height: 160,
+                margin:
+                    EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 15),
+                height: 195,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1,
-                        color: Colors.black.withOpacity(.6),
-                      )
-                    ]),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 1,
+                      color: Colors.black.withOpacity(.6),
+                    )
+                  ],
+                ),
                 child: Container(
                   margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                   child: Column(
@@ -133,7 +149,30 @@ class _TransaksiState extends State<Transaksi> {
                             ],
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            child: RaisedButton.icon(
+                              color: Colors.red,
+                              onPressed: () async {
+                                await TransaksiApi().deleteData(id_transaksi: snapshot.data?[index]['id_transaksi']);
+                              
+                                await Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (context) => MyApp()));
+
+                              },
+                              icon: Icon(Icons.cancel, color: Colors.white,),
+                              label: Text("Hapus"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
