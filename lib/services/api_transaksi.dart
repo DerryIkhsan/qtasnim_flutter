@@ -57,4 +57,19 @@ class TransaksiApi{
       saved = true;
     }
   }
+
+  Future<List<dynamic>> reportData() async {
+    var reportPost            = Uri.parse("$api/transaksi/report.php");
+    var responseReportPost    = await http.post(reportPost);
+
+    dynamic data;
+    List<dynamic> resultGet     = [];
+
+    if(responseReportPost.statusCode == 200){
+      data        = json.decode(responseReportPost.body);
+      resultGet   = data['result'] ?? [];
+    }
+
+    return resultGet;
+  }
 }

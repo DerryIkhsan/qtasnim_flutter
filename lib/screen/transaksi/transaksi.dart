@@ -46,7 +46,7 @@ class _TransaksiState extends State<Transaksi> {
               return Container(
                 margin:
                     EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 15),
-                height: 195,
+                height: 205,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -151,7 +151,7 @@ class _TransaksiState extends State<Transaksi> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 25),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -58,7 +58,6 @@ class _TransaksiAddState extends State<TransaksiAdd> {
                             setState(() {
                               idBarang = value.toString();  
                             });
-                            print(idBarang);
                           },
                           items: data.map<DropdownMenuItem<String>>((e) {
                             return DropdownMenuItem<String>(

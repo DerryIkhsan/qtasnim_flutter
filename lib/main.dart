@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:qtasnim_flutter/screen/transaksi/transaksi_add.dart';
+import 'package:qtasnim_flutter/screen/transaksi/transaksi_report.dart';
 import 'package:qtasnim_flutter/services/services.dart';
-// import 'package:qtasnim_flutter/services/services.dart';
 import 'screen/transaksi/transaksi_provider.dart';
 import 'screen/transaksi/transaksi_bloc.dart';
 import 'screen/transaksi/transaksi.dart';
-import 'dt.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
-      // home: TransaksiAdd(),
     );
   }
 }
@@ -88,8 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             nama_barang: _cariTransaksi,
                             order: value.toString());
                       });
-
-                      print(_orderBy);
                     },
                     items: [
                       DropdownMenuItem(
@@ -108,24 +104,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Transaksi(),
                 ),
                 SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton.icon(
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      'Tambah Transaksi',
-                      style: TextStyle(
-                        color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      child: RaisedButton.icon(
+                        icon: Icon(
+                          Icons.file_copy,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Laporan Transaksi',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: Colors.blue,
+                        onPressed: () async {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TransaksiReport(),));
+                        },
                       ),
                     ),
-                    color: Colors.green,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TransaksiAdd(),));
-                    },
-                  ),
+                    SizedBox(
+                      width: 200,
+                      child: RaisedButton.icon(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Tambah Transaksi',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: Colors.green,
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TransaksiAdd(),));
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
